@@ -35,16 +35,25 @@ class Contra:
         return self.obs
 
     def reset(self):
-        """Power on, one START at the title (1 PLAYER is the default), wait for the player to walk in."""
+        """Power on, one START at the title (1 PLAYER is the default), wait for a real game with medals.
+        Retries the START if the first press did not take."""
         out = self.env.reset()
         self.obs = out[0] if isinstance(out, tuple) else out
         for _ in range(300): self.step(self.act())
-        for _ in range(8): self.step(self.act("START"))
-        self.wait_playable()
+        for attempt in range(4):
+            for _ in range(8): self.step(self.act("START"))
+            if self.wait_playable(600):
+                return True
+            for _ in range(120): self.step(self.act())
+        return False
 
     def in_game(self):
+        """Real game: lives byte in 1..9 and at least one medal sprite (tile 10) in the top bar.
+        The attract demo shows GAME OVER as sprites (tiles 2..8) and its lives byte reads 98."""
         r = self.ram()
-        return int(r[A_LIVES]) > 0 or any(r[0x200 + 4 * i] < 24 and r[0x200 + 4 * i + 1] == 10 for i in range(64))
+        lives = int(r[A_LIVES])
+        medals = any(r[0x200 + 4 * i] < 24 and r[0x200 + 4 * i + 1] == 10 for i in range(64))
+        return 0 < lives <= 9 and medals
 
     def wait_playable(self, limit=1200):
         for _ in range(limit):

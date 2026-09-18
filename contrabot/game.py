@@ -57,13 +57,22 @@ class Game(Contra):
         }
         return words, meta
 
+    def demo(self, meta):
+        """The attract demo populates the same RAM bytes; its lives byte reads 98 and there are no medals."""
+        return meta.v["lives"] > 9 or not self.in_game()
+
     def dead(self, meta):
-        return bool(meta.v["death"])
+        return bool(meta.v["death"]) or self.demo(meta)
 
     def after_death(self):
-        """Wait out the death animation; on the GAME OVER screen press START on CONTINUE (the default)."""
+        """Wait out the death animation; on the GAME OVER screen press START on CONTINUE (the default).
+        If the attract demo is running instead of a game, power-cycle and start a real game."""
         n = 0
         lives_before = self.vars()["lives"]
+        if lives_before > 9 or not self.in_game():
+            self.reset()
+            self.tracker = Tracker()
+            return n
         for _ in range(FPS * 4):
             self.step(self.act()); n += 1
             if self.vars()["death"] == 0 and self.vars()["state"] == 1: break
@@ -74,6 +83,8 @@ class Game(Contra):
                 self.continues = getattr(self, "continues", 0) + 1
             if not self.wait_playable(900):
                 self.reset()
+        if not self.in_game() or self.vars()["lives"] > 9:
+            self.reset()
         self.tracker = Tracker()
         return n
 
