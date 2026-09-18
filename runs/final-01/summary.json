@@ -1,0 +1,20 @@
+{
+  "model": "jev-1.13.0",
+  "decisions": 2130,
+  "game_seconds": 240.0,
+  "wall_seconds": 775.5,
+  "deaths": 9,
+  "game_overs": 3,
+  "levels_completed": 1,
+  "level_clock": {
+    "1-1": 340
+  },
+  "furthest_x": 3146,
+  "world": "1-1",
+  "requests": 2130,
+  "input_tokens": 1812951,
+  "cost_usd": 0.0761,
+  "latency_ms_median": 202.2,
+  "latency_ms_p90": 287.0,
+  "video": "runs/final-01/run.mp4"
+}
