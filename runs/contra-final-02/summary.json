@@ -1,0 +1,16 @@
+{
+  "game": "Jev plays Contra",
+  "model": "jev-1.13.0",
+  "decisions": 1859,
+  "game_seconds": 200.0,
+  "wall_seconds": 518.9,
+  "deaths": 8,
+  "transitions": [],
+  "best_progress": 2020,
+  "requests": 1859,
+  "input_tokens": 1516160,
+  "cost_usd": 0.0637,
+  "latency_ms_median": 200.8,
+  "latency_ms_p90": 272.9,
+  "video": "runs/contra-final-02/run.mp4"
+}
