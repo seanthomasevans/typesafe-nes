@@ -6,3 +6,4 @@ __pycache__/
 refs/
 runs/**/*.mp4
 runs/**/*.png
+clips/
