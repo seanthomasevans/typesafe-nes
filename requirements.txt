@@ -1,0 +1,5 @@
+stable-retro
+numpy<2
+typesafe-sdk
+pillow
+opencv-python
