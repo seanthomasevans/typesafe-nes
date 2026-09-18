@@ -1,0 +1,74 @@
+[   4.9s] #50 206ms x=606 in the air danger=0.6 move=stomp(0.54) stomp=0.18 -> stomp | goomba 5 tiles ahead, below Mario, can be stomped
+[   9.9s] #100 239ms x=850 in the air danger=1.8 move=stomp(0.93) stomp=0.32 -> stomp | goomba 1 tile ahead, below Mario, can be stomped; goomba behind Mario, below Mario, can be stomped; a wall or pipe 2 tiles tall starting 4 tiles ahead
+[  14.9s] #150 289ms x=1036 on the ground danger=0.8 move=jump(0.72) stomp=0.06 -> jump the gap: running to the takeoff | a gap in the ground starting 5 tiles ahead, 2 tiles wide
+[  19.9s] #200 236ms x=1714 on the ground danger=0.5 move=stomp(0.63) stomp=0.30 -> stomp | green koopa behind Mario, at Mario's level, can be stomped; goomba 6 tiles ahead, at Mario's level, can be stomped; goomba 7 tiles ahead, at Mario's level, can be stomped
+[  22.6s] died at x=2018 world 1-1
+[  27.9s] #250 251ms x=1609 on the ground danger=1.0 move=stomp(0.67) stomp=0.47 -> stomp | goomba behind Mario, at Mario's level, can be stomped; green koopa 5 tiles ahead, at Mario's level, can be stomped
+[  32.9s] #300 143ms x=2178 on the ground danger=1.9 move=jump(0.97) stomp=0.05 -> jump the wall | a wall or pipe 1 tile tall starting 1 tile ahead; beyond 8 tiles ahead the level is not loaded yet
+[  37.9s] #350 256ms x=2372 in the air danger=0.4 move=jump(0.77) stomp=0.07 -> jump | a gap in the ground starting 5 tiles ahead, 2 tiles wide
+[  42.9s] #400 203ms x=2851 in the air danger=0.1 move=jump(0.43) stomp=0.08 -> jump | a wall or pipe 1 tile tall starting 6 tiles ahead; beyond 8 tiles ahead the level is not loaded yet
+[  47.6s] LEVEL COMPLETE 1-1 with 340 on the clock, deaths so far 1
+[  47.9s] #450 153ms x=46 in the air danger=0.0 move=run(0.98) stomp=0.02 -> run | clear ground for at least 9 tiles, no enemies
+[  52.9s] #500 238ms x=350 on the ground danger=1.0 move=jump(0.91) stomp=0.20 -> back_up [run-up for the wall at 368: backing up (code)] | goomba 6 tiles ahead, at Mario's level, can be stomped; a wall or pipe 4 tiles tall starting 2 tiles ahead
+[  55.8s] died at x=482 world 1-2
+[  60.9s] #550 183ms x=299 in the air danger=0.3 move=jump(0.58) stomp=0.07 -> jump | a wall or pipe 1 tile tall starting 5 tiles ahead
+[  64.9s] died at x=463 world 1-2
+[  68.9s] #600 130ms x=134 on the ground danger=0.0 move=run(1.00) stomp=0.02 -> run | clear ground for at least 9 tiles, no enemies
+[  73.9s] #650 228ms x=722 in the air danger=1.9 move=stomp(0.75) stomp=0.31 -> stomp | goomba right next to Mario, below Mario, can be stomped; goomba 5 tiles ahead, below Mario, can be stomped; goomba 6 tiles ahead, below Mario, can be stomped
+[  78.9s] #700 204ms x=867 on the ground danger=0.9 move=jump(0.78) stomp=0.05 -> back_up [run-up for the wall at 912: backing up (code)] | a wall or pipe 4 tiles tall starting 3 tiles ahead
+[  83.9s] #750 253ms x=1198 on the ground danger=1.0 move=stomp(0.67) stomp=0.37 -> stomp | goomba 4 tiles ahead, above Mario, can be stomped; goomba 6 tiles ahead, above Mario, can be stomped
+[  88.9s] #800 233ms x=1799 in the air danger=1.8 move=stomp(0.95) stomp=0.30 -> stomp | goomba right next to Mario, below Mario, can be stomped; goomba behind Mario, below Mario, can be stomped; beyond 8 tiles ahead the level is not loaded yet
+[  93.9s] #850 130ms x=2224 on the ground danger=1.9 move=jump(0.82) stomp=0.04 -> back_up [run-up for the wall at 2240: backing up (code)] | a wall or pipe 4 tiles tall starting 1 tile ahead; the wall is 4 tiles tall: a standing jump clears only 3, so Mario must back up several tiles and jump at full running speed; beyond 8 tiles ahead the level is not loaded yet
+[  98.9s] #900 434ms x=2407 in the air danger=1.0 move=jump(0.68) stomp=0.06 -> jump | a gap in the ground starting 3 tiles ahead, 2 tiles wide; beyond 8 tiles ahead the level is not loaded yet
+[ 100.1s] died at x=2474 world 1-1
+[ 106.9s] #950 229ms x=1756 on the ground danger=1.0 move=stomp(0.82) stomp=0.92 -> stomp | goomba 2 tiles ahead, at Mario's level, can be stomped; goomba 4 tiles ahead, at Mario's level, can be stomped
+[ 111.9s] #1000 181ms x=2206 on the ground danger=0.9 move=jump(0.79) stomp=0.05 -> back_up [run-up for the wall at 2240: backing up (code)] | a wall or pipe 4 tiles tall starting 3 tiles ahead
+[ 116.9s] #1050 244ms x=2433 on the ground danger=2.0 move=jump(0.95) stomp=0.06 -> jump the gap: running to the takeoff | a gap in the ground starting 1 tile ahead, 2 tiles wide; beyond 8 tiles ahead the level is not loaded yet
+[ 121.9s] #1100 226ms x=2933 in the air danger=0.9 move=jump(0.40) stomp=0.05 -> jump | a wall or pipe 1 tile tall starting 4 tiles ahead; beyond 7 tiles ahead the level is not loaded yet
+[ 126.9s] #1150 254ms x=234 in the air danger=0.8 move=stomp(0.75) stomp=0.20 -> stomp | goomba behind Mario, below Mario, can be stomped; goomba behind Mario, below Mario, can be stomped; a wall or pipe 1 tile tall starting 7 tiles ahead
+[ 131.9s] #1200 226ms x=427 in the air danger=1.0 move=stomp(0.85) stomp=0.33 -> stomp | goomba 2 tiles ahead, below Mario, can be stomped; beyond 8 tiles ahead the level is not loaded yet
+[ 136.9s] #1250 284ms x=872 on the ground danger=0.8 move=stomp(0.80) stomp=0.93 -> stomp: closing in | green koopa 3 tiles ahead, at Mario's level, can be stomped; goomba 7 tiles ahead, at Mario's level, can be stomped; goomba 9 tiles ahead, at Mario's level, can be stomped
+[ 140.0s] died at x=1198 world 1-2
+[ 144.9s] #1300 168ms x=269 in the air danger=0.2 move=jump(0.45) stomp=0.07 -> jump | a wall or pipe 1 tile tall starting 5 tiles ahead
+[ 149.9s] #1350 188ms x=482 on the ground danger=1.8 move=stomp(0.36) stomp=0.51 -> stomp | goomba behind Mario, at Mario's level, can be stomped; a wall or pipe 3 tiles tall starting 1 tile ahead; beyond 8 tiles ahead the level is not loaded yet
+[ 150.7s] died at x=482 world 1-2
+[ 157.9s] #1400 163ms x=544 on the ground danger=1.0 move=jump(0.33) stomp=0.25 -> jump the wall: running to the takeoff | goomba 7 tiles ahead, at Mario's level, can be stomped; a wall or pipe 3 tiles tall starting 4 tiles ahead; beyond 8 tiles ahead the level is not loaded yet
+[ 162.9s] #1450 218ms x=745 in the air danger=1.0 move=stomp(0.63) stomp=0.45 -> run [run-up for the wall at 736: running at it, -9px to go, speed 40 (code)] | goomba 4 tiles ahead, below Mario, can be stomped; goomba 6 tiles ahead, below Mario, can be stomped
+[ 167.9s] #1500 275ms x=972 in the air danger=0.0 move=run(0.99) stomp=0.02 -> run | clear ground for at least 9 tiles, no enemies
+[ 172.9s] #1550 170ms x=1678 in the air danger=1.7 move=stomp(0.83) stomp=0.26 -> stomp | green koopa right next to Mario, below Mario, can be stomped; a wall or pipe 1 tile tall starting 2 tiles ahead
+[ 177.9s] #1600 218ms x=2153 in the air danger=0.1 move=run(0.70) stomp=0.12 -> run | beyond 8 tiles ahead the level is not loaded yet
+[ 182.9s] #1650 213ms x=2354 on the ground danger=1.9 move=jump(0.97) stomp=0.05 -> jump the wall | a gap in the ground starting 6 tiles ahead, 2 tiles wide; a wall or pipe 1 tile tall starting 1 tile ahead; beyond 8 tiles ahead the level is not loaded yet
+[ 185.9s] died at x=2474 world 1-1
+[ 190.9s] #1700 367ms x=1564 in the air danger=1.0 move=stomp(0.80) stomp=0.20 -> stomp | goomba behind Mario, below Mario, can be stomped; goomba behind Mario, below Mario, can be stomped; green koopa 9 tiles ahead, below Mario, can be stomped
+[ 195.9s] #1750 213ms x=2140 in the air danger=1.0 move=jump(0.76) stomp=0.10 -> jump | a wall or pipe 1 tile tall starting 3 tiles ahead
+[ 200.9s] #1800 193ms x=2365 in the air danger=1.0 move=jump(0.79) stomp=0.04 -> jump | a gap in the ground starting 6 tiles ahead, 2 tiles wide; a wall or pipe 1 tile tall starting 3 tiles ahead
+[ 205.9s] #1850 197ms x=2841 on the ground danger=1.0 move=stomp(0.49) stomp=0.51 -> stomp | goomba behind Mario, at Mario's level, can be stomped; a wall or pipe 2 tiles tall starting 2 tiles ahead; beyond 8 tiles ahead the level is not loaded yet
+[ 210.9s] #1900 143ms x=40 in the air danger=0.0 move=run(0.98) stomp=0.02 -> run | clear ground for at least 9 tiles, no enemies
+[ 215.9s] #1950 226ms x=352 on the ground danger=1.9 move=jump(0.92) stomp=0.19 -> back_up [run-up for the wall at 368: backing up (code)] | goomba 6 tiles ahead, at Mario's level, can be stomped; a wall or pipe 4 tiles tall starting 1 tile ahead; the wall is 4 tiles tall: a standing jump clears only 3, so Mario must back up several tiles and jump at full running speed
+[ 219.1s] died at x=482 world 1-2
+[ 223.9s] #2000 391ms x=254 on the ground danger=1.0 move=jump(0.98) stomp=0.11 -> jump the wall | a wall or pipe 1 tile tall starting 2 tiles ahead
+[ 228.2s] died at x=463 world 1-2
+[ 231.9s] #2050 151ms x=89 on the ground danger=0.0 move=run(1.00) stomp=0.02 -> run | clear ground for at least 9 tiles, no enemies
+[ 236.9s] #2100 556ms x=706 in the air danger=1.8 move=stomp(0.75) stomp=0.31 -> stomp | goomba right next to Mario, below Mario, can be stomped; goomba 6 tiles ahead, below Mario, can be stomped; goomba 8 tiles ahead, below Mario, can be stomped
+/Users/seanthomasevans/workspace/typesafe-nes/runs/index.html: 14 runs
+{
+  "model": "jev-1.13.0",
+  "decisions": 2130,
+  "game_seconds": 240.0,
+  "wall_seconds": 775.5,
+  "deaths": 9,
+  "game_overs": 3,
+  "levels_completed": 1,
+  "level_clock": {
+    "1-1": 340
+  },
+  "furthest_x": 3146,
+  "world": "1-1",
+  "requests": 2130,
+  "input_tokens": 1812951,
+  "cost_usd": 0.0761,
+  "latency_ms_median": 202.2,
+  "latency_ms_p90": 287.0,
+  "video": "runs/final-01/run.mp4"
+}
+exit 0

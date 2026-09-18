@@ -1,42 +1,85 @@
 # typesafe-nes
 
-Jev (TypeSafe's System One model) plays Super Mario Bros. through stable-retro. Every 6 frames
-code reads Mario's RAM (position, state, the 32×13 tile map, the five enemy slots) and writes a
-few lines of words: "goomba 3 tiles ahead, at Mario's level, can be stomped", "a gap in the ground
-starting 1 tile ahead, 2 tiles wide". One TypeSafe request asks four typed questions in parallel:
+Jev, TypeSafe's non-generative decision model, plays NES games through stable-retro:
+Super Mario Bros., Contra, and Mega Man. A companion repo does the same for Doom through ViZDoom.
 
-| id | type | question |
+Every few frames, code reads the game's RAM and writes a few lines of plain words about the
+situation. One TypeSafe request asks a handful of typed questions in parallel (Choice, Score,
+Noul). Code turns the answers into controller buttons. Jev never sees pixels and never
+generates text; it returns a choice, a score, or a probability, with calibrated confidence.
+
+## What Jev decides, and what code does
+
+| Game | Jev is asked, every 6 frames | Code owns |
 |---|---|---|
-| move | Choice: run, jump, high_jump, wait, back_up | What Mario should do now |
-| danger | Score, 3 levels | How urgent the nearest problem is |
-| stomp | Noul | Jump onto the nearest enemy |
-| full_speed | Noul | Safe to keep running for 3 tiles |
+| Super Mario Bros. | move (run, jump, stomp, wait), danger (Score), stomp (Noul), full_speed (Noul) | RAM to words, the tile scan (gaps, walls), takeoff frame and A-hold length from gap width or wall height, a run-up state machine for tall pipes, edge refusal |
+| Contra | danger (Score), move (run, jump, prone, hold), aim (forward, up, diagonal up, diagonal down), fire (Noul) | Sprite-list perception (objects, size, position, motion), fire cadence, stuck-jump |
+| Mega Man | danger (Score), move (run, jump, climb, hold, back_up), fire (Noul) | Sprite-list perception, ladder search when stuck (ladders are background tiles) |
 
-Code owns the RAM reading, the tile scan, jump-hold timing, and two refusals it logs on the panel:
-it jumps when a gap starts right under the next step, and when Mario is stuck against a wall.
+Every code decision is logged as an override in red on the side panel and in `decisions.jsonl`,
+next to the exact words Jev saw and every probability it returned. That log is the point: you
+can see per frame what was the model's judgment and what was the harness.
 
-## ROM
+## Results (2026-09-18, single runs)
 
-The game runs from a Super Mario Bros. + Duck Hunt combo cart (iNES mapper 66) through a custom
-stable-retro integration in `refs/retro-int/SMBDuckHunt-Nes/` (gitignored): `rom.nes`, `rom.sha`
-(the ROM's SHA-1), plus `data.json`, `metadata.json`, `scenario.json` copied from stable-retro's
-`SuperMarioBros-Nes-v0` integration. The RAM layout is the same as the plain cartridge.
+| Game | Outcome | Median latency | Cost |
+|---|---|---|---|
+| Super Mario Bros. | World 1-1 completed, 340 on the clock, one death | 175 to 200 ms per decision | about $0.02 per game-minute |
+| Contra | Jungle to screen 9, several deaths | about 210 ms | about $0.02 per game-minute |
+| Mega Man | Climbs the first ladder of Cut Man's stage, then stalls | about 200 ms | about $0.02 per game-minute |
+
+The harness carries game knowledge (jump physics tables, which enemies are stompable, the
+run-up maneuver). Jev decides what to do; code decides the exact frame. If you want a stricter
+split, remove the timing tables from `mariobot/brain.py` and let Jev pick jump and hold length
+itself; it dies a lot more, which is itself the data point.
+
+## Setup
+
+You supply your own ROMs. They are never part of this repository (`refs/` is gitignored).
+
+```bash
+uv venv .venv --python 3.12
+uv pip install --python .venv/bin/python -r requirements.txt
+echo 'TYPESAFE_API_KEY=...' > .env
+
+# Build the stable-retro integration for each ROM you have (the Mario one also accepts the
+# Super Mario Bros. + Duck Hunt combo cart; the RAM layout is the same):
+.venv/bin/python make_integration.py --game mario   --rom "/path/to/Super Mario Bros.nes"
+.venv/bin/python make_integration.py --game contra  --rom "/path/to/Contra (USA).nes"
+.venv/bin/python make_integration.py --game megaman --rom "/path/to/Mega Man (USA).nes"
+```
 
 ## Run
 
 ```bash
-uv venv .venv --python 3.12 && uv pip install --python .venv/bin/python -r requirements.txt
-echo 'TYPESAFE_API_KEY=...' > .env
-.venv/bin/python run.py --seconds 180 --show
+.venv/bin/python run.py         --seconds 180 --show   # Mario
+.venv/bin/python run_contra.py  --seconds 180 --show   # Contra
+.venv/bin/python run_megaman.py --seconds 180 --show   # Mega Man
 ```
 
-Outputs in `runs/<timestamp>/`: `run.mp4` (game at 2× plus the judgment panel, 60 fps),
-`decisions.jsonl`, `summary.json`. `probe.py` runs a scripted Mario with no Jev calls to check perception.
+`--show` opens a live window (game at 2x plus the judgment panel). Each run writes
+`runs/<name>/run.mp4`, `decisions.jsonl`, and `summary.json`, and regenerates `runs/index.html`,
+a viewer of every run with its numbers and video. `probe.py` runs Mario with no Jev calls, to
+check perception.
 
-## Files
+## Things learned the hard way
 
-- `mariobot/emu.py` stable-retro wrapper, verified RAM addresses, start sequence
-- `mariobot/perceive.py` RAM to words and numbers
-- `mariobot/brain.py` questions, request, policy
-- `mariobot/overlay.py` panel renderer
-- `run.py` loop, recorder, logs
+- nes-py loads these ROMs but its controller input never registered here; three probes were
+  watching Contra's attract demo (its GAME OVER letters are 8x16 sprites that look like lives
+  icons). stable-retro's cores work. The Contra wrapper now treats the demo's lives byte (98) and
+  the absence of medal sprites as "not a game".
+- Super Mario Bros. keeps its tile map in a two-page ring buffer; columns past the screen's right
+  edge hold stale data. Trust only what is on screen or you get phantom gaps.
+- The game jumps only on a fresh A press. Holding A across decisions leaves Mario standing at a
+  pipe with the button down.
+- Jev reads literally. "A wall or a ladder is probably in the way" produced ninety seconds of
+  holding up where there was no ladder.
+
+## Layout
+
+- `nesbot/` generic pieces: `sprites.py` (OAM shadow at 0x200 to objects with motion),
+  `runner.py` (loop, recorder, logs), `panel.py`
+- `mariobot/`, `contrabot/`, `megabot/` per-game emulator wrapper, perception, questions, policy
+- `make_index.py` builds `runs/index.html`
+
+MIT. Built with the TypeSafe Python SDK against jev-1.13.0.
