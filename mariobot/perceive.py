@@ -27,8 +27,11 @@ class Meta:
     feet_row: int = 0
     gap_at: int | None = None        # tiles ahead where the next gap starts (0 = the next column)
     gap_width: int = 0
+    gap_px: int = 0                  # pixels from Mario's x to the gap's first column
     wall_at: int | None = None       # tiles ahead where the next wall/pipe starts
     wall_height: int = 0
+    wall_px: int = 0                 # pixels from Mario's x to the wall's first column
+    known_tiles: int = 0
     enemies: list = field(default_factory=list)   # dicts with dx (px), dy, name, stompable
     stuck: bool = False
     dead: bool = False
@@ -59,6 +62,7 @@ def perceive(m: Mario, hist: dict) -> tuple[dict, Meta]:
         gap = all(m.tile(cx, TILE_Y0 + 16 * r) == 0 for r in range(max(meta.feet_row, 0), ROWS))
         if gap and meta.gap_at is None and n > 0:
             meta.gap_at = n
+            meta.gap_px = (cx - 8) - v["x"]
         if meta.gap_at is not None and meta.gap_width == 0 and not gap and n > meta.gap_at:
             meta.gap_width = n - meta.gap_at
         # wall: solid tiles in Mario's body rows
@@ -68,6 +72,8 @@ def perceive(m: Mario, hist: dict) -> tuple[dict, Meta]:
             else: break
         if h > 0 and meta.wall_at is None and n > 0:
             meta.wall_at, meta.wall_height = n, h
+            meta.wall_px = (cx - 8) - v["x"]
+    meta.known_tiles = known
     if meta.gap_at is not None and meta.gap_width == 0:
         meta.gap_width = max(1, known - meta.gap_at)
 
@@ -80,13 +86,13 @@ def perceive(m: Mario, hist: dict) -> tuple[dict, Meta]:
 
     # Stuck: running right but x not changing.
     xs = hist.setdefault("xs", [])
-    xs.append(v["x"]); del xs[:-40]
-    meta.stuck = len(xs) >= 40 and max(xs) - min(xs) < 4 and meta.on_ground
+    xs.append(v["x"]); del xs[:-25]
+    meta.stuck = len(xs) >= 25 and max(xs) - min(xs) < 24
 
     # ---- words -------------------------------------------------------------------
     ahead = []
     for e in meta.enemies:
-        if e["dx"] < -48 or e["dx"] > 16 * LOOK_TILES + 8: continue
+        if e["dx"] < -80 or e["dx"] > 16 * LOOK_TILES + 8: continue
         tiles = round(e["dx"] / 16)
         where = "behind Mario" if tiles < 0 else tiles_words(tiles)
         level = "above Mario" if e["dy"] < -20 else ("below Mario" if e["dy"] > 20 else "at Mario's level")
@@ -96,6 +102,8 @@ def perceive(m: Mario, hist: dict) -> tuple[dict, Meta]:
         ahead.append(f"a gap in the ground starting {tiles_words(meta.gap_at)}, {meta.gap_width} tile{'s' if meta.gap_width != 1 else ''} wide")
     if meta.wall_at is not None:
         ahead.append(f"a wall or pipe {meta.wall_height} tile{'s' if meta.wall_height != 1 else ''} tall starting {tiles_words(meta.wall_at)}")
+    if meta.wall_at is not None and meta.wall_at <= 1 and meta.wall_height >= 4 and v["xspeed"] < 16:
+        ahead.append(f"the wall is {meta.wall_height} tiles tall: a standing jump clears only 3, so Mario must back up several tiles and jump at full running speed")
     if known < LOOK_TILES:
         ahead.append(f"beyond {known} tiles ahead the level is not loaded yet")
     if not ahead:
@@ -113,7 +121,7 @@ def perceive(m: Mario, hist: dict) -> tuple[dict, Meta]:
             "lives": v["lives"], "time_left": v["time"], "world": f"{v['world']}-{v['stage']}",
         },
         "ahead": ahead,
-        "stuck": "yes, Mario has been pushing against something without moving" if meta.stuck else "no",
+        "stuck": "yes, Mario is pressed against something and not moving; a jump from here goes straight up, he needs to back up first" if meta.stuck else "no",
         "recent_moves": hist.get("moves", [])[-4:] or "none yet",
     }
     meta.words = words

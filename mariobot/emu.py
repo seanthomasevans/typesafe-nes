@@ -101,7 +101,11 @@ class Mario:
         row, col = (y - TILE_Y0) // 16, (x % 256) // 16
         return int(self.ram()[TILES + page * PAGE_BYTES + row * 16 + col])
 
+    def screen_left(self):
+        r = self.ram()
+        return int(r[0x71A]) * 256 + int(r[0x71C])
+
     def page_loaded(self, x):
-        """True if the tile page containing x is the current page or the next one (ring of two)."""
-        cur = self.vars()["x"] // 256
-        return x // 256 in (cur, cur + 1)
+        """True if column x has been rendered on screen: the tile buffer is a ring of two pages and
+        columns past the screen's right edge still hold stale data from two pages back."""
+        return x < self.screen_left() + 256 - 8

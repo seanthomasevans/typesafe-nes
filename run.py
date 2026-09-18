@@ -60,7 +60,7 @@ def main():
     brain, ctrl, hist = Brain(), Ctrl(), {}
     log = open(out / "decisions.jsonl", "w")
     stats = {"model": "", "decisions": 0, "deaths": 0, "game_overs": 0, "levels": 0, "cost": 0.0}
-    budget, total, lat, dec, max_x, best_world = int(args.seconds * FPS), 0, [], None, 0, "1-1"
+    budget, total, lat, dec, max_x, best_world, level_times = int(args.seconds * FPS), 0, [], None, 0, "1-1", {}
     t_start = time.time()
     try:
         while total < budget:
@@ -72,12 +72,13 @@ def main():
                     m.step(m.act()); total += 1
                 if not m.wait_playable():
                     stats["game_overs"] += 1; m.start_game()
-                hist.clear(); ctrl.a_hold = 0
+                hist.clear(); ctrl.a_hold = 0; ctrl.mode = ""
                 continue
             if meta.v["state"] != 8 or meta.v["mode"] != 1:
-                if meta.v["float"] == 3 or meta.v["state"] in (4, 5):
-                    stats["levels"] += 1; print(f"[{total/FPS:6.1f}s] LEVEL COMPLETE {meta.v['world']}-{meta.v['stage']}", flush=True)
-                m.wait_playable(); hist.clear(); continue
+                if (meta.v["float"] == 3 or meta.v["state"] in (4, 5)) and best_world not in level_times:
+                    level_times[best_world] = meta.v["time"]
+                    stats["levels"] += 1; print(f"[{total/FPS:6.1f}s] LEVEL COMPLETE {best_world} with {meta.v['time']} on the clock, deaths so far {stats['deaths']}", flush=True)
+                m.wait_playable(); hist.clear(); ctrl.a_hold = 0; ctrl.mode = ""; continue
             a = brain.ask(words, meta)
             plan, label, override = policy(meta, a, args.decision_frames, ctrl, m.act)
             hist.setdefault("moves", []).append(label); del hist["moves"][:-6]
@@ -103,11 +104,12 @@ def main():
         brain.close()
         if args.show: cv2.destroyAllWindows()
     summary = {"model": stats["model"], "decisions": stats["decisions"], "game_seconds": round(total / FPS, 1), "wall_seconds": round(time.time() - t_start, 1),
-               "deaths": stats["deaths"], "game_overs": stats["game_overs"], "levels_completed": stats["levels"], "furthest_x": max_x, "world": best_world,
+               "deaths": stats["deaths"], "game_overs": stats["game_overs"], "levels_completed": stats["levels"], "level_clock": level_times, "furthest_x": max_x, "world": best_world,
                "requests": brain.total_requests, "input_tokens": brain.total_tokens, "cost_usd": round(brain.cost_usd, 4),
                "latency_ms_median": round(float(np.median(lat)), 1) if lat else None, "latency_ms_p90": round(float(np.percentile(lat, 90)), 1) if lat else None,
                "video": str(out / "run.mp4") if rec else None}
     (out / "summary.json").write_text(json.dumps(summary, indent=2)); print(json.dumps(summary, indent=2))
+    subprocess.run([str(ROOT / ".venv" / "bin" / "python"), str(ROOT / "make_index.py"), "Jev plays Super Mario Bros"], check=False)
 
 
 if __name__ == "__main__":

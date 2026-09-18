@@ -1,0 +1,17 @@
+{
+  "model": "jev-1.13.0",
+  "decisions": 420,
+  "game_seconds": 45.0,
+  "wall_seconds": 146.1,
+  "deaths": 1,
+  "game_overs": 0,
+  "levels_completed": 0,
+  "furthest_x": 898,
+  "world": "1-1",
+  "requests": 420,
+  "input_tokens": 371081,
+  "cost_usd": 0.0156,
+  "latency_ms_median": 187.5,
+  "latency_ms_p90": 252.5,
+  "video": "runs/goal-02/run.mp4"
+}

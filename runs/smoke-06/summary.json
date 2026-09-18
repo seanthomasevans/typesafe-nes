@@ -1,0 +1,17 @@
+{
+  "model": "jev-1.13.0",
+  "decisions": 1170,
+  "game_seconds": 120.0,
+  "wall_seconds": 313.3,
+  "deaths": 1,
+  "game_overs": 0,
+  "levels_completed": 0,
+  "furthest_x": 900,
+  "world": "1-1",
+  "requests": 1170,
+  "input_tokens": 999158,
+  "cost_usd": 0.042,
+  "latency_ms_median": 190.9,
+  "latency_ms_p90": 267.3,
+  "video": "runs/smoke-06/run.mp4"
+}
