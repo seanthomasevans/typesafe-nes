@@ -1,0 +1,16 @@
+{
+  "game": "Jev plays Mega Man",
+  "model": "jev-1.13.0",
+  "decisions": 1200,
+  "game_seconds": 120.0,
+  "wall_seconds": 422.6,
+  "deaths": 0,
+  "transitions": [],
+  "best_progress": 269,
+  "requests": 1200,
+  "input_tokens": 810202,
+  "cost_usd": 0.034,
+  "latency_ms_median": 202.6,
+  "latency_ms_p90": 277.4,
+  "video": "runs/megaman-03/run.mp4"
+}
